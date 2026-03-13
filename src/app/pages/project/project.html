@@ -1,0 +1,12 @@
+<div class="page-wrapper">
+
+    <h2 class="page-title">Projects</h2>
+
+    <div *ngIf="!loader.isLoading()">
+        <div class="fields-container">
+           <input type="text" placeholder="Search" class="search-input">
+            <button class="add-btn">New Project</button>
+        </div>
+        <app-table [tableData]="projectStore.tableData()"></app-table>
+    </div>
+</div>

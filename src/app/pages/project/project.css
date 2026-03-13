@@ -1,0 +1,47 @@
+.page-title {
+    margin-bottom: 20px;
+    color: #5a67d8;
+}
+
+.fields-container {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-bottom: 30px;
+    gap: 18px;
+}
+
+/*Search Input*/
+.search-input {
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-size: 18px;
+    color: #111;
+    width: 100%;
+    transition: border-color 0.2s ease;
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: #6c7ae0;
+}
+
+/*Add Btn*/
+.add-btn {
+    border: none;
+    padding: 10px 20px;
+    background-color: #ffffff;
+    font-size: 18px;
+    border: 2px solid #6c7ae0;
+    border-radius: 10px;
+    cursor: pointer;
+    width: 100%;
+    max-width: 150px;
+    transition: background-color 0.2s ease;
+}
+
+.add-btn:hover {
+    background-color: #6c7ae0;
+    color: #fff;
+}

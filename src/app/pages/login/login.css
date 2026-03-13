@@ -1,0 +1,122 @@
+.page-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #6a78d1;
+}
+
+/* Container styling */
+.container {
+    width: 100%;
+    max-width: 500px;
+    padding: 40px;
+    background-color: #ffffff;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+/* Form heading */
+.container h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #6a78d1
+}
+
+/* Input field container */
+.form-field:not(:last-child) {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Labels */
+.form-field label {
+    margin-bottom: 5px;
+    font-weight: 600;
+    color: #555;
+}
+
+/* Input fields */
+.form-field input {
+    padding: 12px 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: border 0.3s, box-shadow 0.3s;
+}
+
+/* Input focus effect */
+.form-field input:focus {
+    border-color: #6a78d1;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    outline: none;
+}
+
+.password-input {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.password-input input {
+  width: 100%;
+}
+
+.password-reveal {
+  position: absolute;
+  right: 12px;
+  cursor: pointer;
+  color: #666;
+  display: flex;
+  align-items: center;
+}
+
+.password-reveal:hover {
+  color: #333;
+}
+
+/* Submit button (optional) */
+.container button {
+    width: 100%;
+    padding: 12px;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    background: linear-gradient(135deg, #6a78d1, #5b6fd1, #687edd);
+    transition: background-color 0.3s;
+}
+
+.container button:hover {
+    background-color: #6a78d1;
+}
+
+.validation-error {
+    color: red;
+    margin-top: 10px
+}
+
+.api-error {
+    color: red;
+    margin-bottom: 10px;
+}
+
+.signup-link {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    margin-top: 20px;
+    color: #111;
+    font-size: 16px;
+}
+
+.signup-link a {
+    text-decoration: none;
+    color: #6a78d1;
+    font-weight: bold;
+    cursor: pointer;
+}

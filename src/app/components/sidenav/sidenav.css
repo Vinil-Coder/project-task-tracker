@@ -1,0 +1,52 @@
+.side-nav-container {
+  padding-top: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Logo */
+.logo {
+  padding: 20px;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+/* Menu */
+.nav-menu {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+}
+
+/* Links */
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 22px;
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
+  border-radius: 10px;
+  margin: 4px 12px;
+  transition: all 0.25s ease;
+  cursor: pointer;
+}
+
+/* Hover */
+.nav-link:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateX(4px);
+}
+
+/* Active */
+.nav-link.active {
+  background: white;
+  color: #5a67d8;
+  font-weight: 600;
+}
+
+/* Icon */
+.icon {
+  font-size: 18px;
+}

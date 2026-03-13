@@ -1,0 +1,17 @@
+<div class="layout-container">
+
+  <app-sidenav id="sidenav"></app-sidenav>
+
+  <app-header id="header"></app-header>
+
+  <main id="main">
+    <router-outlet></router-outlet>
+  </main>
+
+  <app-footer id="footer"></app-footer>
+
+  <div *ngIf="store.isLoading()" class="loading-overlay">
+    <div class="loader"></div>
+  </div>
+
+</div>

@@ -1,0 +1,29 @@
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 20px;
+  background-color: #fff;
+  border-bottom: 4px solid #6a78d1;
+}
+
+.toggle {
+  cursor: pointer;
+  font-size: 22px;
+}
+
+.logout:hover, .toggle:hover {
+  color: #5a67d8;
+}
+
+.logout {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.icon img {
+  width: 18px;
+  height: 18px;
+}
