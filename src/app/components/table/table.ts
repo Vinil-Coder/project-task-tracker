@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { TableSchema } from '../../core/interfaces/project.interface';
 
 @Component({
@@ -8,7 +8,7 @@ import { TableSchema } from '../../core/interfaces/project.interface';
   templateUrl: './table.html',
   styleUrl: './table.css',
 })
-export class Table implements OnInit {
+export class Table {
   
   @Input() tableData: TableSchema = {
     rows: [],
@@ -17,7 +17,12 @@ export class Table implements OnInit {
 
   constructor() {}
 
-  ngOnInit(): void {
-    console.log('table', this.tableData)
+  dynamicClass(priority: string) {
+    return {
+      'priotity-low': priority === 'Low',
+      'priotity-medium': priority === 'Medium',
+      'priotity-high': priority === 'High',
+      'priotity-critical': priority === 'Critical'
+    }
   }
 }

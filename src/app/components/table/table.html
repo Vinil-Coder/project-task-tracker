@@ -13,10 +13,23 @@
                 <td>{{ row.title }}</td>
                 <td>{{ row.description }}</td>
                 <td>{{ row.status }}</td>
-                <td>{{ row.priority }}</td>
-                <td>{{ row.startDate | date: 'yyyy-MM-dd' }}</td>
-                <td>{{ row.endDate | date: 'yyyy-MM-dd' }}</td>
+                <td>
+                    <div class="priority" [ngClass]="dynamicClass(row.priority)">
+                        {{ row.priority }}
+                    </div>
+                </td>
+                <td>{{ row.startDate | date: 'dd MMM yyyy' }}</td>
+                <td>{{ row.endDate | date: 'dd MMM yyyy' }}</td>
                 <td class="action-buttons">
+                    <!-- View Icon -->
+                    <button class="icon-btn view" title="View">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            viewBox="0 0 16 16">
+                            <path
+                                d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM8 13c-3.314 0-5.5-3.5-5.5-5S4.686 3 8 3s5.5 3.5 5.5 5S11.314 13 8 13z" />
+                            <path d="M8 5a3 3 0 1 0 0 6a3 3 0 0 0 0-6z" />
+                        </svg>
+                    </button>
                     <!-- Edit Icon -->
                     <button class="icon-btn edit" title="Edit">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"

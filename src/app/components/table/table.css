@@ -9,7 +9,7 @@ table {
     border-collapse: collapse;
     width: 100%;
     min-width: 800px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
     overflow: hidden;
 }
@@ -64,6 +64,11 @@ tbody td {
 }
 
 /* Edit & Delete Hover Effects */
+.icon-btn.view:hover {
+    background-color: #6c7ae0;
+    color: #fff;
+}
+
 .icon-btn.edit:hover {
     background-color: #6c7ae0;
     color: #fff;
@@ -72,6 +77,36 @@ tbody td {
 .icon-btn.delete:hover {
     background-color: #f44336;
     color: #fff;
+}
+
+.priority {
+    border-radius: 8px;
+    padding: 5px;
+    text-align: center;
+}
+
+.priotity-low {
+    color: #555;
+    font-weight: bold;
+    border: 1px solid #111;
+}
+
+.priotity-medium {
+    color: #ff9800;
+    font-weight: bold;
+    border: 1px solid #ff9800;
+}
+
+.priotity-high {
+    color: #f44336;
+    font-weight: bold;
+    border: 1px solid #f44336;
+}
+
+.priotity-critical {
+    color: #f44336;
+    font-weight: bold;
+    border: 1px solid #f44336;
 }
 
 /* Responsive */
