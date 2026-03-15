@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { TableSchema } from '../../core/interfaces/project.interface';
 
 @Component({
@@ -15,6 +15,8 @@ export class Table {
     cols: []
   };
 
+  @Output() sendRowData = new EventEmitter<any>();
+
   constructor() {}
 
   dynamicClass(priority: string) {
@@ -24,5 +26,9 @@ export class Table {
       'priotity-high': priority === 'High',
       'priotity-critical': priority === 'Critical'
     }
+  }
+
+  openDialogPopup(row: any, type: string) {
+    this.sendRowData.emit({ row, type});
   }
 }

@@ -1,5 +1,6 @@
 
-export interface Project {
+export interface ProjectInterface {
+    id?: string,
     title: string,
     description: string;
     priority: string,
@@ -10,11 +11,11 @@ export interface Project {
 
 export interface TableSchema {
     cols: string[];
-    rows: Project[];
+    rows: ProjectInterface[];
 }
 
 export interface ProjectState {
     error: string | null;
-    projects: Project[];
+    projects: ProjectInterface[];
     tableData: TableSchema
 }

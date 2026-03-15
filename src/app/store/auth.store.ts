@@ -4,13 +4,13 @@ import { inject } from "@angular/core";
 import LocalStorageService from "../core/services/localstorage.service";
 import { Router } from "@angular/router";
 import { AuthState, LoginInterface, RegisterInterface } from "../core/interfaces/auth.interface";
+import { LoaderService } from "../core/services/loading.service";
 
 
 export const AuthStore = signalStore(
     { providedIn: 'root' },
 
     withState<AuthState>({
-        isLoading: false,
         error: null,
         loggedIn: false,
         user: null,
@@ -22,15 +22,14 @@ export const AuthStore = signalStore(
         const auth = inject(AuthService);
         const localstorage = inject(LocalStorageService)
         const router = inject(Router)
-
+        const loader = inject(LoaderService);
         return {
             login(payload: LoginInterface): void {
-                patchState(store, { isLoading: true, error: null });
-
+                patchState(store, { error: null });
+                loader.startLoader();
                 auth.login(payload).subscribe({
                     next: (res) => {
                         patchState(store, {
-                            isLoading: false,
                             error: null,
                             loggedIn: true,
                             user: res.user,
@@ -45,18 +44,21 @@ export const AuthStore = signalStore(
                     },
                     error: (err: any) => {
                         patchState(store, {
-                            isLoading: false,
                             error: err.error.message,
                         });
+                        loader.stopLoader();
+                    },
+                    complete: () => {
+                        loader.stopLoader();
                     }
                 });
             },
             register(payload: RegisterInterface): void {
-                patchState(store, { isLoading: true,error: null });
+                patchState(store, { error: null });
+                loader.startLoader();
                 auth.register(payload).subscribe({
                     next: (res) => {
                         patchState(store, {
-                            isLoading: false,
                             error: null,
                             loggedIn: true,
                             user: res.user,
@@ -71,19 +73,21 @@ export const AuthStore = signalStore(
                     },
                     error: (err: any) => {
                         patchState(store, {
-                            isLoading: false,
                             error: err.error.message
                         });
+                        loader.stopLoader();
+                    },
+                    complete: () => {
+                        loader.stopLoader();
                     }
                 })
             },
             logout(): void {
-                patchState(store, { isLoading: true, error: null });
-
+                patchState(store, { error: null });
+                loader.startLoader();
                 auth.logout().subscribe({
                     next: (res) => {
                         patchState(store, {
-                            isLoading: false,
                             loggedIn: false,
                             error: null,
                             user: null,
@@ -95,9 +99,12 @@ export const AuthStore = signalStore(
                     },
                     error: (err: any) => {
                         patchState(store, {
-                            isLoading: false,
                             error: err.message
                         });
+                        loader.stopLoader();
+                    },
+                    complete: () => {
+                        loader.stopLoader();
                     }
                 });
             }

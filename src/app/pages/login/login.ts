@@ -3,6 +3,7 @@ import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthStore } from '../../store/auth.store';
 import { RouterModule } from '@angular/router';
+import { LoaderService } from '../../core/services/loading.service';
 
 @Component({
   selector: 'app-login',
@@ -17,6 +18,7 @@ export class Login {
 
   private fb = inject(FormBuilder);
   store = inject(AuthStore);
+  loader = inject(LoaderService);
 
   constructor() {
     this.loginForm = this.fb.group({

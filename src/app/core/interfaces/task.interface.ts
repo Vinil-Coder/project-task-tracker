@@ -1,5 +1,6 @@
 
-export interface Task {
+export interface TaskModel {
+    id?: string,
     title: string,
     description: string;
     priority: string,
@@ -10,11 +11,11 @@ export interface Task {
 
 export interface TableSchema {
     cols: string[];
-    rows: Task[];
+    rows: TaskModel[];
 }
 
 export interface TaskState {
     error: string | null;
-    tasks: Task[];
+    tasks: TaskModel[];
     tableData: TableSchema
 }

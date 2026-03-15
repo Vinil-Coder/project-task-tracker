@@ -1,1 +1,112 @@
-<p>dashboard works!</p>
+<div class="page-wrapper">
+
+    <h3 class="page-title">Analytics</h3>
+
+    <section class="section project-analytics" id="project-section">
+
+        <h3 class="section-title">Project Analytics</h3>
+
+        <div class="cards-container">
+
+            <div class="card total">
+                <span class="card-value">{{ projectStore.total() }}</span>
+                <p class="card-text">Total</p>
+            </div>
+
+            <div class="card initiated">
+                <span class="card-value">{{ projectStore.initiated() }}</span>
+                <p class="card-text">Initiated</p>
+            </div>
+
+            <div class="card progress">
+                <span class="card-value">{{ projectStore.inprogess() }}</span>
+                <p class="card-text">In Progress</p>
+            </div>
+
+            <div class="card completed">
+                <span class="card-value">{{ projectStore.completed() }}</span>
+                <p class="card-text">Completed</p>
+            </div>
+
+            <div class="card expired">
+                <span class="card-value">{{ projectStore.expired() }}</span>
+                <p class="card-text">Expired</p>
+            </div>
+
+            <div class="card low">
+                <span class="card-value">{{ projectStore.lowPriority() }}</span>
+                <p class="card-text">Low Priority</p>
+            </div>
+
+            <div class="card medium">
+                <span class="card-value">{{ projectStore.mediumPriority() }}</span>
+                <p class="card-text">Medium Priority</p>
+            </div>
+
+            <div class="card high">
+                <span class="card-value">{{ projectStore.highPriority() }}</span>
+                <p class="card-text">High Priority</p>
+            </div>
+
+            <div class="card critical">
+                <span class="card-value">{{ projectStore.criticalPriority() }}</span>
+                <p class="card-text">Critical</p>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="section task-analytics" id="task-section">
+
+        <h3 class="section-title">Task Analytics</h3>
+
+        <div class="cards-container">
+
+            <div class="card total">
+                <span class="card-value">{{ taskStore.total() }}</span>
+                <p class="card-text">Total</p>
+            </div>
+
+            <div class="card initiated">
+                <span class="card-value">{{ taskStore.initiated() }}</span>
+                <p class="card-text">Initiated</p>
+            </div>
+
+            <div class="card progress">
+                <span class="card-value">{{ taskStore.inprogess() }}</span>
+                <p class="card-text">In Progress</p>
+            </div>
+
+            <div class="card completed">
+                <span class="card-value">{{ taskStore.completed() }}</span>
+                <p class="card-text">Completed</p>
+            </div>
+
+            <div class="card expired">
+                <span class="card-value">{{ taskStore.expired() }}</span>
+                <p class="card-text">Expired</p>
+            </div>
+
+            <div class="card low">
+                <span class="card-value">{{ taskStore.lowPriority() }}</span>
+                <p class="card-text">Low Priority</p>
+            </div>
+
+            <div class="card medium">
+                <span class="card-value">{{ taskStore.mediumPriority() }}</span>
+                <p class="card-text">Medium Priority</p>
+            </div>
+
+            <div class="card high">
+                <span class="card-value">{{ taskStore.highPriority() }}</span>
+                <p class="card-text">High Priority</p>
+            </div>
+
+            <div class="card critical">
+                <span class="card-value">{{ taskStore.criticalPriority() }}</span>
+                <p class="card-text">Critical</p>
+            </div>
+
+        </div>
+    </section>
+</div>

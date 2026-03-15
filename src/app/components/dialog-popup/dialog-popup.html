@@ -1,1 +1,8 @@
-<p>dialog-popup works!</p>
+<div class="dialog-overlay">
+    <div class="dialog-popup">
+        <ng-content></ng-content>
+        <div *ngIf="loader.isLoading()" class="dialog-loader-overlay">
+            <div class="loader"></div>
+        </div>
+    </div>
+</div>

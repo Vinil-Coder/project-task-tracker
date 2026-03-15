@@ -3,8 +3,8 @@ import { RouterOutlet } from '@angular/router';
 import { Sidenav } from '../components/sidenav/sidenav';
 import { Header } from '../components/header/header';
 import { Footer } from '../components/footer/footer';
-import { AuthStore } from '../store/auth.store';
 import { CommonModule } from '@angular/common';
+import { LoaderService } from '../core/services/loading.service';
 
 @Component({
   selector: 'app-layout',
@@ -14,8 +14,5 @@ import { CommonModule } from '@angular/common';
 })
 export class Layout {
 
-  store = inject(AuthStore);
-  constructor() {
-    console.log('loader', this.store.isLoading())
-  }
+  loader = inject(LoaderService);
 }

@@ -3,6 +3,7 @@ import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { AuthStore } from '../../store/auth.store';
+import { LoaderService } from '../../core/services/loading.service';
 
 @Component({
   selector: 'app-register',
@@ -17,6 +18,7 @@ export class Register {
 
   private fb = inject(FormBuilder);
   store = inject(AuthStore);
+  loader = inject(LoaderService);
 
   constructor() {
     this.singUpForm = this.fb.group({

@@ -3,26 +3,30 @@
         <thead class="table-header">
             <tr>
                 <th>S.No</th>
-                <th *ngFor="let col of tableData?.cols">{{ col }}</th>
+                <th *ngFor="let col of tableData.cols">{{ col }}</th>
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let row of tableData?.rows; let i = index">
+            <tr *ngFor="let row of tableData.rows; let i = index">
                 <td>{{ i + 1}}</td>
                 <td>{{ row.title }}</td>
                 <td>{{ row.description }}</td>
-                <td>{{ row.status }}</td>
                 <td>
-                    <div class="priority" [ngClass]="dynamicClass(row.priority)">
+                    <div class="priority badge {{ row.priority | lowercase }}">
                         {{ row.priority }}
+                    </div>
+                </td>
+                <td>
+                    <div class="status badge {{ row.status | lowercase }}">
+                        {{ row.status }}
                     </div>
                 </td>
                 <td>{{ row.startDate | date: 'dd MMM yyyy' }}</td>
                 <td>{{ row.endDate | date: 'dd MMM yyyy' }}</td>
                 <td class="action-buttons">
                     <!-- View Icon -->
-                    <button class="icon-btn view" title="View">
+                    <button class="icon-btn view" title="View" (click)="openDialogPopup(row, 'view')">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                             viewBox="0 0 16 16">
                             <path
@@ -31,7 +35,7 @@
                         </svg>
                     </button>
                     <!-- Edit Icon -->
-                    <button class="icon-btn edit" title="Edit">
+                    <button class="icon-btn edit" title="Edit" (click)="openDialogPopup(row, 'edit')">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                             viewBox="0 0 16 16">
                             <path
@@ -39,7 +43,7 @@
                         </svg>
                     </button>
                     <!-- Delete Icon -->
-                    <button class="icon-btn delete" title="Delete">
+                    <button class="icon-btn delete" title="Delete" (click)="openDialogPopup(row, 'delete')">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                             viewBox="0 0 16 16">
                             <path
@@ -47,7 +51,7 @@
                         </svg>
                     </button>
             </tr>
-            <tr *ngIf="tableData?.rows?.length === 0">
+            <tr *ngIf="tableData.rows.length === 0">
                 <td colspan="8" style="text-align: center;">No List</td>
             </tr>
         </tbody>

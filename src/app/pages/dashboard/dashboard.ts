@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
+import { ProjectStore } from '../../store/project.store';
+import { TaskStore } from '../../store/task.store';
 
 @Component({
   selector: 'app-dashboard',
@@ -6,6 +8,14 @@ import { Component } from '@angular/core';
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css',
 })
-export class Dashboard {
+export class Dashboard implements OnInit {
 
+  projectStore = inject(ProjectStore);
+  taskStore = inject(TaskStore);
+
+  ngOnInit(): void {
+    this.projectStore.getProjects();
+    this.taskStore.getTasks();
+    console.log('tasks', this.taskStore.total())
+  }
 }

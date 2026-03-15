@@ -1,0 +1,63 @@
+.dialog-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 9999;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+}
+
+.dialog-overlay.show {
+    display: block;
+}
+
+.dialog-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;;
+    width: 500px;
+    padding: 18px 22px;
+    border-radius: 10px;
+    background: #ffffff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border: 2px solid #6a78d1;
+    transform: translate(-50%, -50%);
+}
+
+.dialog-loader-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.btn-container {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-bottom: 10px;
+    gap: 10px;
+}
+
+.close-btn {
+    font-size: 15px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 8px;
+    background: #6a78d1;
+    color: #fff;
+    cursor: pointer;
+}
+
+.close-btn:hover {
+    transform: scale(1.1);
+}
