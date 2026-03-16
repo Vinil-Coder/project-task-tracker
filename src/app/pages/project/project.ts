@@ -7,6 +7,7 @@ import { DialogPopup } from '../../components/dialog-popup/dialog-popup';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ProjectModel } from '../../core/interfaces/project.interface';
 import { Search } from '../../components/search/search';
+import { TableSchema } from '../../core/interfaces/task.interface';
 
 @Component({
   selector: 'app-project',
@@ -170,13 +171,22 @@ export class Project {
     this.toggleDialogForm();
   }
 
-  openFormDialog(type: string, tableRow?: { row: any, type: string }) {
-    this.app.showForm.set(!this.app.showForm());
+  openFormDialog() {
+    this.initializeEmptyVariables();
+    this.app.showForm.set(true);
     this.toggleDialogForm();
+  }
 
-    if (type != 'add') {
-      this.actionType = type;
+  onRowClick(tableRow: { row: ProjectModel, type: string }) {
+
+    this.initializeEmptyVariables();
+
+    this.app.showForm.set(true);   // always open
+
+    if (tableRow.type !== 'add') {
+      this.actionType = tableRow.type;
       this.project = tableRow?.row;
+
       this.form.patchValue({
         title: this.project.title,
         description: this.project.description,
@@ -184,21 +194,25 @@ export class Project {
         status: this.project.status,
         startDate: this.project.startDate?.split('T')[0],
         endDate: this.project.endDate?.split('T')[0]
-      })
+      });
+
       this.selectedPriority = this.project.priority;
       this.selectedStatus = this.project.status;
     }
+
+    this.toggleDialogForm();
   }
 
   initializeEmptyVariables() {
     this.form.reset();
     this.actionType = 'add';
     this.project = {} as ProjectModel;
+
     this.priorityDropdownOpen = false;
     this.statusDropdownOpen = false;
+
     this.selectedPriority = 'Select Priority';
     this.selectedStatus = 'Select Status';
-    this.toggleDialogForm();
   }
 
   toggleDialogForm() {

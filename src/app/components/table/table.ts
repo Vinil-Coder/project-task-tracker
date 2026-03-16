@@ -29,6 +29,6 @@ export class Table {
   }
 
   openDialogPopup(row: any, type: string) {
-    this.sendRowData.emit({ row, type});
+    this.sendRowData.emit({ row, type });
   }
 }

@@ -7,6 +7,11 @@
     font-family: Arial, Helvetica, sans-serif;
 }
 
+:root {
+    --primary-color: #5c6bc0;
+    
+}
+
 .loading-overlay {
     position: fixed;
     top: 0;
@@ -23,7 +28,7 @@
     width: 60px;
     height: 60px;
     border: 6px solid #ddd;
-    border-top: 6px solid #6a78d1;
+    border-top: 6px solid var(--primary-color);
     border-radius: 50%;
     animation: spin 1s linear infinite;
 }
@@ -87,7 +92,7 @@
 
 /* Input focus effect */
 .form-field input:focus {
-    border-color: #6a78d1;
+    border-color: var(--primary-color);
     box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
     outline: none;
 }

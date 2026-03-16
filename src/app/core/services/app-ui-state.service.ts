@@ -42,7 +42,7 @@ export class AppUiStateService {
     showToastr(
         message: string,
         type: ToastrType = ToastrType.SUCCESS,
-        duration: number = 3000): void {
+        duration: number = 2000): void {
         this.toastr.set(this.toastr().show ? { ...this.toastr(), show: false } : this.toastr());
         this.toastr.set({ message, type, duration, show: true });
         setTimeout(() => {

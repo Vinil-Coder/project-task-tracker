@@ -13,7 +13,7 @@ app-sidenav {
     width: 250px;
     z-index: 1000;
     color: white;
-    background: linear-gradient(180deg, #6c7ae0, #5a67d8);
+    background: var(--primary-color);
     transition: left 0.3s ease-in-out;
 }
 
@@ -31,7 +31,7 @@ app-header {
     z-index: 1000;
     background: #fff;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    background: linear-gradient(180deg, #6c7ae0, #5a67d8);
+    background: var(--primary-color);
     transition: left 0.3s ease-in-out;;
 }
 

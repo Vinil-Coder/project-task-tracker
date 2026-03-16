@@ -4,19 +4,22 @@
   </div>
 
   <nav class="nav-menu">
-    <a routerLink="/dashboard" class="nav-link active" routerLinkActive="active" (click)="toggleMenu()">
-      <span class="icon">📊</span>
+
+    <a routerLink="/dashboard" routerLinkActive="active" class="nav-link" (click)="toggleMenu()">
       Dashboard
     </a>
 
-    <a routerLink="/projects" class="nav-link" routerLinkActive="active" (click)="toggleMenu()">
-      <span class="icon">📁</span>
+    <a routerLink="/projects" routerLinkActive="active" class="nav-link" (click)="toggleMenu()">
       Projects
     </a>
 
-    <a routerLink="/tasks" class="nav-link" routerLinkActive="active" (click)="toggleMenu()">
-      <span class="icon">✅</span>
+    <a routerLink="/tasks" routerLinkActive="active" class="nav-link" (click)="toggleMenu()">
       Tasks
     </a>
+
+     <a routerLink="/profile" routerLinkActive="active" class="nav-link" (click)="toggleMenu()">
+      Profile
+    </a>
+
   </nav>
 </div>

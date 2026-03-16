@@ -1,0 +1,77 @@
+<div class="profile-page">
+
+  <!-- Profile Header -->
+  <div class="profile-header">
+    <div class="profile-avatar">
+      <img src="https://i.pravatar.cc/120" alt="profile">
+    </div>
+
+    <div class="profile-info">
+      <h2>John Doe</h2>
+      <p>Frontend Developer</p>
+
+      <div class="profile-actions">
+        <button class="edit-btn">Edit Profile</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stats -->
+  <div class="profile-stats">
+
+    <div class="stat-card">
+      <h3>{{ project.projects().length || '0'}}</h3>
+      <p>Projects</p>
+    </div>
+
+    <div class="stat-card">
+      <h3>{{ task.tasks().length || '0' }}</h3>
+      <p>Tasks</p>
+    </div>
+
+    <div class="stat-card">
+      <h3>{{ (project.completed() / project.projects().length) * 100 }} %</h3>
+      <p>Completion</p>
+    </div>
+
+  </div>
+
+  <!-- Profile Details -->
+  <div class="profile-details">
+
+    <div class="details-card">
+      <h3>Account Information</h3>
+
+      <div class="detail-row">
+        <span>Email</span>
+        <span>{{ auth.user().email }}</span>
+      </div>
+
+      <div class="detail-row">
+        <span>Phone</span>
+        <span>+91 {{ auth.user().mobilenumber }}</span>
+      </div>
+
+      <div class="detail-row">
+        <span>Role</span>
+        <span>Owner</span>
+      </div>
+
+      <div class="detail-row">
+        <span>Joined</span>
+        <span>{{ auth.user().createdAt | date: 'dd, MMM yyyy' }}</span>
+      </div>
+
+    </div>
+
+    <div class="details-card">
+      <h3>Recent Activities</h3>
+
+      <ul class="activity-list">
+        <li *ngFor="let activity of activity.activities()">{{ activity.message }}</li>
+      </ul>
+    </div>
+
+  </div>
+
+</div>

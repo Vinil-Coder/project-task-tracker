@@ -26,6 +26,8 @@ thead th {
     text-align: left;
     font-weight: 600;
     color: #ffffff;
+    font-size: 15px;
+    text-wrap-mode: nowrap
 }
 
 /* Table Body */
@@ -42,6 +44,8 @@ tbody tr:hover {
 tbody td {
     padding: 12px 16px;
     border-bottom: 1px solid #eee;
+    font-size: 15px;
+    text-wrap-mode: nowrap;
 }
 
 /* Action Buttons */
@@ -87,11 +91,11 @@ tbody td {
 }
 
 .badge {
-  padding: 5px 8px;
-  border-radius: 12px;
-  font-size: 13px;
-  background: #eef2ff;
-  text-align: center;
+    padding: 5px 8px;
+    border-radius: 12px;
+    font-size: 13px;
+    background: #eef2ff;
+    text-align: center;
 }
 
 /* Priority colors */

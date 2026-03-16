@@ -4,7 +4,7 @@
   justify-content: space-between;
   padding: 15px 30px;
   background-color: #fff;
-  border-bottom: 4px solid #6a78d1;
+  border-bottom: 4px solid var(--primary-color);
 }
 
 .toggle {
@@ -13,7 +13,7 @@
 }
 
 .logout:hover, .toggle:hover {
-  color: #5a67d8;
+  color: var(--primary-color);
 }
 
 .logout {
@@ -24,6 +24,13 @@
 }
 
 .icon img {
-  width: 18px;
-  height: 18px;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+.profile-container {
+  display: flex;
+  align-items: center;
+  gap: 32px;
 }

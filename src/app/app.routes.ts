@@ -36,6 +36,10 @@ export const routes: Routes = [
                 loadComponent: () => import('./pages/dashboard/dashboard').then(c => c.Dashboard)
             },
             {
+                path: 'profile',
+                loadComponent: () => import('./pages/profile/profile').then(c => c.Profile)
+            },
+            {
                 path: '',
                 redirectTo: 'dashboard',
                 pathMatch: 'full'

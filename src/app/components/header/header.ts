@@ -32,4 +32,8 @@ export class Header {
       sidenavElement?.classList.toggle('hide');
     }
   }
+
+  navigateToProfilePage() {
+    window.location.href = '/profile';
+  }
 }
