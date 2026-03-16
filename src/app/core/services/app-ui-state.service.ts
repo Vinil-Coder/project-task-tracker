@@ -25,8 +25,10 @@ export class AppUiStateService {
         type: ToastrType.SUCCESS,
         duration: 3000,
         show: false
-    })
-
+    });
+    showFilter = signal(false);
+    showForm = signal(false);
+    
     constructor() { }
 
     startLoader(): void {

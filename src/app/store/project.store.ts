@@ -1,5 +1,5 @@
 import { patchState, signalStore, withComputed, withHooks, withMethods, withState } from "@ngrx/signals";
-import { ProjectInterface, ProjectState } from "../core/interfaces/project.interface";
+import { ProjectModel, ProjectState } from "../core/interfaces/project.interface";
 import { inject } from "@angular/core";
 import ProjectService from "../core/services/project.service";
 import { AppUiStateService, ToastrType } from "../core/services/app-ui-state.service";
@@ -61,7 +61,7 @@ export const ProjectStore = signalStore(
 
         };
 
-        const addProject = (payload: ProjectInterface, onSuccess: () => void): void => {
+        const addProject = (payload: ProjectModel, onSuccess: () => void): void => {
 
             patchState(store, { error: null });
             app.startLoader();
@@ -89,7 +89,7 @@ export const ProjectStore = signalStore(
 
         };
 
-        const updateProject = (payload: ProjectInterface, onSuccess: () => void): void => {
+        const updateProject = (payload: ProjectModel, onSuccess: () => void): void => {
 
             patchState(store, { error: null });
             app.startLoader();
@@ -118,7 +118,7 @@ export const ProjectStore = signalStore(
 
         };
 
-        const deleteProject = (payload: ProjectInterface, onSuccess: () => void): void => {
+        const deleteProject = (payload: ProjectModel, onSuccess: () => void): void => {
 
             patchState(store, { error: null });
             app.startLoader();

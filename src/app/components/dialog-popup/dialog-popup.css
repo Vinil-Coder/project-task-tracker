@@ -18,8 +18,10 @@
 .dialog-popup {
     position: fixed;
     top: 50%;
-    left: 50%;;
-    width: 500px;
+    left: 50%;
+    width: 100%;
+    min-width: none;
+    max-width: 500px;
     padding: 18px 22px;
     border-radius: 10px;
     background: #ffffff;

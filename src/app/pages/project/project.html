@@ -4,19 +4,24 @@
 
     <div *ngIf="!app.isLoading()">
 
-        <div class="fields-container">
-            <input type="text" placeholder="Search" class="search-input">
-            <button class="add-btn" (click)="toggleDialogForm()">New Project</button>
+        <div class="add-btn-container">
+            <button class="add-btn" (click)="openFormDialog('add')">New Project</button>
         </div>
 
-        <app-table [tableData]="store.tableData()" (sendRowData)="onRowClick($event)">
+        <div class="fields-container">
+            <app-search [placeholder]="placeholder" [data]="store.projects()"
+                (searchResults)="updateTableData($event)">
+            </app-search>
+        </div>
+
+        <app-table [tableData]="store.tableData()" (sendRowData)="openFormDialog($event)">
         </app-table>
 
     </div>
 
     <app-dialog-popup>
 
-        <div class="modal">
+        <div class="modal" *ngIf="app.showForm()">
             <div class="modal-header">
                 <h3 class="modal-title">{{ getFormTitle() }}</h3>
 
@@ -84,7 +89,7 @@
                             <label>Priority</label>
 
                             <div class="select-box">
-                               {{ selectedPriority || 'Select Priority' }}
+                                {{ selectedPriority || 'Select Priority' }}
                                 <span class="arrow"></span>
                             </div>
 

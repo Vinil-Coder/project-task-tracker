@@ -4,14 +4,17 @@
 
     <div *ngIf="!app.isLoading()">
 
-        <div class="fields-container">
-            <input type="text" placeholder="Search" class="search-input">
+        <div class="add-btn-container">
             <button class="add-btn" (click)="toggleDialogForm()">New Task</button>
+        </div>
+
+        <div class="fields-container">
+            <app-search [placeholder]="placeholder" [data]="store.tasks()" (searchResults)="updateTableData($event)">
+            </app-search>
         </div>
 
         <app-table [tableData]="store.tableData()" (sendRowData)="onRowClick($event)">
         </app-table>
-
     </div>
 
     <app-dialog-popup>

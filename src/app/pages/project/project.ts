@@ -5,19 +5,20 @@ import { AppUiStateService } from '../../core/services/app-ui-state.service';
 import { Table } from '../../components/table/table';
 import { DialogPopup } from '../../components/dialog-popup/dialog-popup';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ProjectInterface } from '../../core/interfaces/project.interface';
-
+import { ProjectModel } from '../../core/interfaces/project.interface';
+import { Search } from '../../components/search/search';
 
 @Component({
   selector: 'app-project',
-  imports: [CommonModule, Table, DialogPopup, ReactiveFormsModule],
+  imports: [CommonModule, Table, DialogPopup, Search, ReactiveFormsModule],
   templateUrl: './project.html',
   styleUrl: './project.css',
 })
 export class Project {
 
+  placeholder = 'Search project' as string;
   form = {} as FormGroup;
-  project = {} as ProjectInterface;
+  project = {} as ProjectModel;
   actionType = '' as string;
 
   store = inject(ProjectStore);
@@ -39,23 +40,12 @@ export class Project {
       startDate: ['', Validators.required],
       endDate: ['', Validators.required]
     })
+    this.store.tableData().rows = this.store.projects()
     this.app.showToastr('Projects fetched successfully');
   }
 
   get f() {
     return this.form.controls;
-  }
-
-  toggleDialogForm() {
-    this.form.reset();
-    this.actionType = 'add';
-    this.project = {} as ProjectInterface;
-    this.priorityDropdownOpen = false;
-    this.statusDropdownOpen = false;
-    this.selectedPriority = 'Select Priority';
-    this.selectedStatus = 'Select Status';
-    const dialogOverlay = document.querySelector('.dialog-overlay');
-    dialogOverlay?.classList.toggle('show');
   }
 
   getFormTitle() {
@@ -121,25 +111,6 @@ export class Project {
     );
   }
 
-  onRowClick(tableRow: { row: any, type: string }) {
-    this.toggleDialogForm();
-    this.actionType = tableRow.type;
-    this.project = tableRow.row;
-
-    if (tableRow.type === 'edit') {
-      this.form.patchValue({
-        title: this.project.title,
-        description: this.project.description,
-        priority: this.project.priority,
-        status: this.project.status,
-        startDate: this.project.startDate?.split('T')[0],
-        endDate: this.project.endDate?.split('T')[0]
-      })
-      this.selectedPriority = this.project.priority;
-      this.selectedStatus = this.project.status;
-    }
-  }
-
   priorityDropdownOpen = false;
   selectedPriority = 'Select Priority';
 
@@ -192,7 +163,50 @@ export class Project {
       !this.statusDropdown.nativeElement.contains(event.target)) {
       this.statusDropdownOpen = false;
     }
-
   }
 
+  openFilterDialog() {
+    this.app.showFilter.set(!this.app.showFilter());
+    this.toggleDialogForm();
+  }
+
+  openFormDialog(type: string, tableRow?: { row: any, type: string }) {
+    this.app.showForm.set(!this.app.showForm());
+    this.toggleDialogForm();
+
+    if (type != 'add') {
+      this.actionType = type;
+      this.project = tableRow?.row;
+      this.form.patchValue({
+        title: this.project.title,
+        description: this.project.description,
+        priority: this.project.priority,
+        status: this.project.status,
+        startDate: this.project.startDate?.split('T')[0],
+        endDate: this.project.endDate?.split('T')[0]
+      })
+      this.selectedPriority = this.project.priority;
+      this.selectedStatus = this.project.status;
+    }
+  }
+
+  initializeEmptyVariables() {
+    this.form.reset();
+    this.actionType = 'add';
+    this.project = {} as ProjectModel;
+    this.priorityDropdownOpen = false;
+    this.statusDropdownOpen = false;
+    this.selectedPriority = 'Select Priority';
+    this.selectedStatus = 'Select Status';
+    this.toggleDialogForm();
+  }
+
+  toggleDialogForm() {
+    const dialogOverlay = document.querySelector('.dialog-overlay');
+    dialogOverlay?.classList.toggle('show');
+  }
+
+  updateTableData(results: ProjectModel[]) {
+    this.store.tableData().rows = results;
+  }
 }

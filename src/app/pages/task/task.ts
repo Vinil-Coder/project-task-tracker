@@ -7,11 +7,12 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { TaskModel } from '../../core/interfaces/task.interface';
 import { DialogPopup } from '../../components/dialog-popup/dialog-popup';
 import { ProjectStore } from '../../store/project.store';
-import { ProjectInterface } from '../../core/interfaces/project.interface';
+import { ProjectModel } from '../../core/interfaces/project.interface';
+import { Search } from '../../components/search/search';
 
 @Component({
   selector: 'app-task',
-  imports: [CommonModule, Table, DialogPopup, ReactiveFormsModule],
+  imports: [CommonModule, Table, DialogPopup, Search, ReactiveFormsModule],
   templateUrl: './task.html',
   styleUrl: './task.css',
 })
@@ -20,6 +21,7 @@ export class Task {
   form = {} as FormGroup;
   task = {} as TaskModel;
   actionType = '' as string;
+  placeholder = 'Search task' as string;
 
   store = inject(TaskStore);
   projectStore = inject(ProjectStore);
@@ -142,7 +144,7 @@ export class Task {
     }
   }
 
-   priorityDropdownOpen = false;
+  priorityDropdownOpen = false;
   selectedPriority = 'Select Priority';
 
   togglePriorityDropdown(event: Event) {
@@ -188,7 +190,7 @@ export class Task {
     this.form.get('project_id')?.markAsTouched();
   }
 
-  selectProject(value: ProjectInterface, event: Event) {
+  selectProject(value: ProjectModel, event: Event) {
     event.stopPropagation();   // prevents parent click
 
     this.selectedProject = value.title;
@@ -219,6 +221,9 @@ export class Task {
       !this.statusDropdown.nativeElement.contains(event.target)) {
       this.statusDropdownOpen = false;
     }
+  }
 
+  updateTableData(results: TaskModel[]) {
+    this.store.tableData().rows = results;
   }
 }

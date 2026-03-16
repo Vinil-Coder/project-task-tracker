@@ -17,11 +17,19 @@ export class Header {
 
   toogleSidebar() {
     console.log('toogleSidebar');
-    const sidenavElement = document.getElementById('sidenav');
-    const headerElement = document.getElementById('header');
-    const mainElement = document.getElementById('main');
-    sidenavElement?.classList.toggle('hide');
-    headerElement?.classList.toggle('full-screen');
-    mainElement?.classList.toggle('full-screen');
+    const width = Number(window.visualViewport?.width.toFixed(0));
+    if (width <= 1024) {
+      const sidenavElement = document.getElementById('sidenav');
+      sidenavElement?.classList.toggle('hide');
+    } else {
+      const headerElement = document.getElementById('header');
+      headerElement?.classList.toggle('full-screen');
+
+      const mainElement = document.getElementById('main');
+      mainElement?.classList.toggle('full-screen');
+
+      const sidenavElement = document.getElementById('sidenav');
+      sidenavElement?.classList.toggle('hide');
+    }
   }
 }

@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { environment } from "../../../environments/environment";
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
-import { ProjectInterface } from "../interfaces/project.interface";
+import { ProjectModel } from "../interfaces/project.interface";
 
 @Injectable({
     providedIn: 'root'
@@ -17,15 +17,15 @@ export default class ProjectService {
         return this.http.get(`${this.API}`);
     }
 
-    addProject(payload: ProjectInterface): Observable<any> {
+    addProject(payload: ProjectModel): Observable<any> {
         return this.http.post(`${this.API}`, payload);
     }
 
-    updateProject(payload: ProjectInterface): Observable<any> {
+    updateProject(payload: ProjectModel): Observable<any> {
         return this.http.put(`${this.API}id/${payload.id}`, payload);
     }
 
-    deleteProject(payload: ProjectInterface): Observable<any> {
+    deleteProject(payload: ProjectModel): Observable<any> {
         return this.http.delete(`${this.API}id/${payload.id}`);
     }
 }

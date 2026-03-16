@@ -9,4 +9,13 @@ import { RouterModule } from '@angular/router';
 })
 export class Sidenav {
 
+  toggleMenu() {
+
+    const screenWidth = Number(window.visualViewport?.width.toFixed(0));
+
+    if (screenWidth <= 1024) {
+      const sidenavElement = document.getElementById('sidenav');
+      sidenavElement?.classList.add('hide');
+    }
+  }
 }

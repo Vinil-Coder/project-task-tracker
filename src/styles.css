@@ -224,3 +224,171 @@
     color: #fff;
     transition: background-color 0.2s ease
 }
+
+app-search {
+    width: 100%;
+    max-width: 500px;
+}
+
+/*Add Btn*/
+.add-btn-container {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.add-btn {
+    border: none;
+    padding: 10px 20px;
+    background-color: #ffffff;
+    font-size: 18px;
+    border: 2px solid #6a78d1;
+    border-radius: 10px;
+    cursor: pointer;
+    width: 100%;
+    max-width: 150px;
+    transition: background-color 0.2s ease;
+}
+
+.add-btn:hover {
+    background-color: #6a78d1;
+    color: #fff;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.modal-title {
+    color: #6a78d1;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.close-btn {
+    background: no-repeat;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 8px 10px;
+    font-size: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.close-btn:hover {
+    background-color: #6a78d1;
+    color: #fff;
+}
+
+/* Delete Block */
+.warning-text {
+    color: #6b7280;
+    font-size: 15px;
+}
+
+.btn-container {
+    margin-top: 20px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.cancel-btn {
+    background: #e5e7eb;
+    color: #374151;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.cancel-btn:hover {
+    background: #d1d5db;
+}
+
+.delete-btn {
+    background: #ef4444;
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.delete-btn:hover {
+    background: #dc2626;
+}
+
+/* View Block */
+.view-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.view-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.label {
+    font-size: 15px;
+    color: #777;
+    margin-bottom: 5px;
+}
+
+.value {
+    font-size: 16px;
+    font-weight: 500;
+    color: #333;
+}
+
+/* Priority colors */
+.priority.low {
+    color: #22c55e;
+}
+
+.priority.medium {
+    color: #f59e0b;
+}
+
+.priority.high {
+    color: #ef4444;
+}
+
+.priority.critical {
+    color: #b91c1c;
+}
+
+/* Status colors */
+.status.in-progress {
+    color: #6366f1;
+}
+
+.status.completed {
+    color: #10b981;
+}
+
+.status.expired {
+    color: #dc2626;
+}
+
+.page-title {
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 30px;
+    color: #6a78d1;
+}
+
+.fields-container {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 30px;
+    gap: 18px;
+}
