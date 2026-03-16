@@ -1,0 +1,5 @@
+<div class="toast-container" *ngIf="app.toastr().show">
+    <div class="toastr {{ app.toastr().type | lowercase }}">
+        <span>{{ app.toastr().message }}</span>
+    </div>
+</div>

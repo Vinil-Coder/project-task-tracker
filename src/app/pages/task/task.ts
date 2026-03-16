@@ -1,11 +1,13 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, ElementRef, HostListener, inject, ViewChild } from '@angular/core';
 import { Table } from '../../components/table/table';
 import { TaskStore } from '../../store/task.store';
-import { LoaderService } from '../../core/services/loading.service';
+import { AppUiStateService } from '../../core/services/app-ui-state.service';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TaskModel } from '../../core/interfaces/task.interface';
 import { DialogPopup } from '../../components/dialog-popup/dialog-popup';
+import { ProjectStore } from '../../store/project.store';
+import { ProjectInterface } from '../../core/interfaces/project.interface';
 
 @Component({
   selector: 'app-task',
@@ -20,7 +22,8 @@ export class Task {
   actionType = '' as string;
 
   store = inject(TaskStore);
-  loader = inject(LoaderService)
+  projectStore = inject(ProjectStore);
+  app = inject(AppUiStateService)
   formBuilder = inject(FormBuilder);
 
   constructor() {
@@ -33,17 +36,13 @@ export class Task {
         Validators.required,
         Validators.pattern("^[a-zA-Z0-9 ]{8,100}$")
       ]],
+      project_id: ['', Validators.required],
       priority: ['', Validators.required],
       status: ['', Validators.required],
       startDate: ['', Validators.required],
       endDate: ['', Validators.required]
     })
-  }
-
-  ngOnInit(): void {
-    if (this.store.tasks().length == 0) {
-      this.store.getTasks();
-    }
+    this.app.showToastr('Tasks fetched successfully');
   }
 
   get f() {
@@ -131,11 +130,95 @@ export class Task {
       this.form.patchValue({
         title: this.task.title,
         description: this.task.description,
+        project_id: this.task.project_id,
         priority: this.task.priority,
         status: this.task.status,
         startDate: this.task.startDate?.split('T')[0],
         endDate: this.task.endDate?.split('T')[0]
-      })
+      });
+      this.selectedPriority = this.task.priority;
+      this.selectedStatus = this.task.status;
+      this.selectedProject = this.projectStore.projects()?.find(p => p.id === this.task.project_id)?.title || '';
     }
+  }
+
+   priorityDropdownOpen = false;
+  selectedPriority = 'Select Priority';
+
+  togglePriorityDropdown(event: Event) {
+    event.stopPropagation();   // prevents parent click
+    this.priorityDropdownOpen = !this.priorityDropdownOpen;
+    this.form.get('priority')?.markAsTouched();
+  }
+
+  selectPriority(value: string, event: Event) {
+    event.stopPropagation();   // prevents parent click
+
+    this.selectedPriority = value;
+    this.priorityDropdownOpen = false;
+    this.form.patchValue({ priority: value });
+    this.form.get('priority')?.markAsTouched();
+  }
+
+  statusDropdownOpen = false;
+  selectedStatus = 'Select Status';
+
+  toggleStatusDropdown(event: Event) {
+    event.stopPropagation();   // prevents parent click
+    this.statusDropdownOpen = !this.statusDropdownOpen;
+    this.form.get('status')?.markAsTouched();
+  }
+
+  selectStatus(value: string, event: Event) {
+    event.stopPropagation();   // prevents parent click
+
+    this.selectedStatus = value;
+    this.statusDropdownOpen = false;
+
+    this.form.patchValue({ status: value });
+    this.form.get('status')?.markAsTouched();
+  }
+
+  projectDropdownOpen = false;
+  selectedProject = 'Select Project';
+
+  toggleProjectDropdown(event: Event) {
+    event.stopPropagation();   // prevents parent click
+    this.projectDropdownOpen = !this.projectDropdownOpen;
+    this.form.get('project_id')?.markAsTouched();
+  }
+
+  selectProject(value: ProjectInterface, event: Event) {
+    event.stopPropagation();   // prevents parent click
+
+    this.selectedProject = value.title;
+    this.projectDropdownOpen = false;
+
+    this.form.patchValue({ project_id: value.id });
+    this.form.get('project_id')?.markAsTouched();
+  }
+
+  @ViewChild('projectDropdown') projectDropdown!: ElementRef;
+  @ViewChild('priorityDropdown') priorityDropdown!: ElementRef;
+  @ViewChild('statusDropdown') statusDropdown!: ElementRef;
+
+  @HostListener('document:click', ['$event'])
+  handleOutsideClick(event: MouseEvent) {
+
+    if (this.projectDropdown &&
+      !this.projectDropdown.nativeElement.contains(event.target)) {
+      this.projectDropdownOpen = false;
+    }
+
+    if (this.priorityDropdown &&
+      !this.priorityDropdown.nativeElement.contains(event.target)) {
+      this.priorityDropdownOpen = false;
+    }
+
+    if (this.statusDropdown &&
+      !this.statusDropdown.nativeElement.contains(event.target)) {
+      this.statusDropdownOpen = false;
+    }
+
   }
 }

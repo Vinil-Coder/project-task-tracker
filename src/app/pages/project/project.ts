@@ -1,7 +1,7 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, ElementRef, HostListener, inject, ViewChild } from '@angular/core';
 import { ProjectStore } from '../../store/project.store';
 import { CommonModule } from '@angular/common';
-import { LoaderService } from '../../core/services/loading.service';
+import { AppUiStateService } from '../../core/services/app-ui-state.service';
 import { Table } from '../../components/table/table';
 import { DialogPopup } from '../../components/dialog-popup/dialog-popup';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -14,18 +14,18 @@ import { ProjectInterface } from '../../core/interfaces/project.interface';
   templateUrl: './project.html',
   styleUrl: './project.css',
 })
-export class Project implements OnInit {
+export class Project {
 
-  projectForm = {} as FormGroup;
+  form = {} as FormGroup;
   project = {} as ProjectInterface;
   actionType = '' as string;
 
-  projectStore = inject(ProjectStore);
-  loader = inject(LoaderService)
+  store = inject(ProjectStore);
+  app = inject(AppUiStateService)
   formBuilder = inject(FormBuilder);
 
   constructor() {
-    this.projectForm = this.formBuilder.group({
+    this.form = this.formBuilder.group({
       title: ['', [
         Validators.required,
         Validators.pattern("^[a-zA-Z0-9 ]{8,12}$")
@@ -39,22 +39,21 @@ export class Project implements OnInit {
       startDate: ['', Validators.required],
       endDate: ['', Validators.required]
     })
-  }
-
-  ngOnInit(): void {
-    if (this.projectStore.projects().length == 0) {
-      this.projectStore.getProjects();
-    }
+    this.app.showToastr('Projects fetched successfully');
   }
 
   get f() {
-    return this.projectForm.controls;
+    return this.form.controls;
   }
 
   toggleDialogForm() {
-    this.projectForm.reset();
+    this.form.reset();
     this.actionType = 'add';
     this.project = {} as ProjectInterface;
+    this.priorityDropdownOpen = false;
+    this.statusDropdownOpen = false;
+    this.selectedPriority = 'Select Priority';
+    this.selectedStatus = 'Select Status';
     const dialogOverlay = document.querySelector('.dialog-overlay');
     dialogOverlay?.classList.toggle('show');
   }
@@ -75,9 +74,9 @@ export class Project implements OnInit {
 
   onFormSubmit(): void {
 
-    this.projectForm.markAllAsTouched();
+    this.form.markAllAsTouched();
 
-    if (this.projectForm.invalid) return;
+    if (this.form.invalid) return;
 
     switch (this.actionType) {
       case 'edit':
@@ -93,8 +92,8 @@ export class Project implements OnInit {
   }
 
   addProject(): void {
-    this.projectStore.addProject(
-      this.projectForm.value,
+    this.store.addProject(
+      this.form.value,
       () => {
         this.toggleDialogForm();
       }
@@ -102,10 +101,10 @@ export class Project implements OnInit {
   }
 
   updateProject(): void {
-    const formData = this.projectForm.value;
+    const formData = this.form.value;
     formData.id = this.project.id;
 
-    this.projectStore.updateProject(
+    this.store.updateProject(
       formData,
       () => {
         this.toggleDialogForm();
@@ -114,7 +113,7 @@ export class Project implements OnInit {
   }
 
   deleteProject(): void {
-    this.projectStore.deleteProject(
+    this.store.deleteProject(
       this.project,
       () => {
         this.toggleDialogForm();
@@ -128,7 +127,7 @@ export class Project implements OnInit {
     this.project = tableRow.row;
 
     if (tableRow.type === 'edit') {
-      this.projectForm.patchValue({
+      this.form.patchValue({
         title: this.project.title,
         description: this.project.description,
         priority: this.project.priority,
@@ -136,6 +135,64 @@ export class Project implements OnInit {
         startDate: this.project.startDate?.split('T')[0],
         endDate: this.project.endDate?.split('T')[0]
       })
+      this.selectedPriority = this.project.priority;
+      this.selectedStatus = this.project.status;
     }
   }
+
+  priorityDropdownOpen = false;
+  selectedPriority = 'Select Priority';
+
+  togglePriorityDropdown(event: Event) {
+    event.stopPropagation();   // prevents parent click
+    this.priorityDropdownOpen = !this.priorityDropdownOpen;
+    this.form.get('priority')?.markAsTouched();
+  }
+
+  selectPriority(value: string, event: Event) {
+    event.stopPropagation();   // prevents parent click
+
+    this.selectedPriority = value;
+    this.priorityDropdownOpen = false;
+    this.form.patchValue({ priority: value });
+    this.form.get('priority')?.markAsTouched();
+  }
+
+  statusDropdownOpen = false;
+  selectedStatus = 'Select Status';
+
+  toggleStatusDropdown(event: Event) {
+    event.stopPropagation();   // prevents parent click
+    this.statusDropdownOpen = !this.statusDropdownOpen;
+    this.form.get('status')?.markAsTouched();
+  }
+
+  selectStatus(value: string, event: Event) {
+    event.stopPropagation();   // prevents parent click
+
+    this.selectedStatus = value;
+    this.statusDropdownOpen = false;
+
+    this.form.patchValue({ status: value });
+    this.form.get('status')?.markAsTouched();
+  }
+
+  @ViewChild('priorityDropdown') priorityDropdown!: ElementRef;
+  @ViewChild('statusDropdown') statusDropdown!: ElementRef;
+
+  @HostListener('document:click', ['$event'])
+  handleOutsideClick(event: MouseEvent) {
+
+    if (this.priorityDropdown &&
+      !this.priorityDropdown.nativeElement.contains(event.target)) {
+      this.priorityDropdownOpen = false;
+    }
+
+    if (this.statusDropdown &&
+      !this.statusDropdown.nativeElement.contains(event.target)) {
+      this.statusDropdownOpen = false;
+    }
+
+  }
+
 }

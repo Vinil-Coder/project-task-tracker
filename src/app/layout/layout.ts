@@ -4,15 +4,16 @@ import { Sidenav } from '../components/sidenav/sidenav';
 import { Header } from '../components/header/header';
 import { Footer } from '../components/footer/footer';
 import { CommonModule } from '@angular/common';
-import { LoaderService } from '../core/services/loading.service';
+import { AppUiStateService } from '../core/services/app-ui-state.service';
+import { Toastr } from '../components/toastr/toastr';
 
 @Component({
   selector: 'app-layout',
-  imports: [RouterOutlet, Sidenav, Header, Footer, CommonModule],
+  imports: [RouterOutlet, Sidenav, Header, Footer, Toastr, CommonModule],
   templateUrl: './layout.html',
   styleUrl: './layout.css',
 })
 export class Layout {
 
-  loader = inject(LoaderService);
+  app = inject(AppUiStateService);
 }

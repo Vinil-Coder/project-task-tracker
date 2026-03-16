@@ -1,9 +1,10 @@
 import { patchState, signalStore, withComputed, withHooks, withMethods, withState } from "@ngrx/signals";
 import { inject } from "@angular/core";
-import { LoaderService } from "../core/services/loading.service";
+import { AppUiStateService, ToastrType } from "../core/services/app-ui-state.service";
 import { delay } from "rxjs";
 import TaskService from "../core/services/task.service";
 import { TaskModel, TaskState } from "../core/interfaces/task.interface";
+import LocalStorageService from "../core/services/localstorage.service";
 
 export const TaskStore = signalStore(
     { providedIn: 'root' },
@@ -32,12 +33,12 @@ export const TaskStore = signalStore(
     withMethods((store) => {
 
         const task = inject(TaskService);
-        const loader = inject(LoaderService);
+        const app = inject(AppUiStateService);
 
         const getTasks = (): void => {
 
             patchState(store, { error: null });
-            loader.startLoader();
+            app.startLoader();
 
             task.getTasks().subscribe({
                 next: (res) => {
@@ -48,11 +49,14 @@ export const TaskStore = signalStore(
                             cols: store.tableData.cols()
                         }
                     });
+                    app.showToastr('Tasks fetched successfully');
                 },
                 error: (err: any) => {
                     patchState(store, { error: err.error.message });
+                    app.stopLoader();
+                    app.showToastr(err.error.message, ToastrType.ERROR);
                 },
-                complete: () => loader.stopLoader()
+                complete: () => app.stopLoader()
             });
 
         };
@@ -60,11 +64,13 @@ export const TaskStore = signalStore(
         const addTask = (payload: TaskModel, onSuccess: () => void): void => {
 
             patchState(store, { error: null });
-            loader.startLoader();
+            app.startLoader();
 
             task.addTask(payload).pipe(delay(3000)).subscribe({
 
                 next: () => {
+
+                    app.showToastr('Task added successfully');
 
                     getTasks();
 
@@ -74,9 +80,11 @@ export const TaskStore = signalStore(
 
                 error: (err: any) => {
                     patchState(store, { error: err.error.message });
+                    app.stopLoader();
+                    app.showToastr(err.error.message, ToastrType.ERROR);
                 },
 
-                complete: () => loader.stopLoader()
+                complete: () => app.stopLoader()
 
             });
 
@@ -85,11 +93,13 @@ export const TaskStore = signalStore(
         const updateTask = (payload: TaskModel, onSuccess: () => void): void => {
 
             patchState(store, { error: null });
-            loader.startLoader();
+            app.startLoader();
 
             task.updateTask(payload).pipe(delay(3000)).subscribe({
 
                 next: () => {
+
+                    app.showToastr('Task updated successfully');
 
                     getTasks();
 
@@ -99,9 +109,11 @@ export const TaskStore = signalStore(
 
                 error: (err: any) => {
                     patchState(store, { error: err.error.message });
+                    app.stopLoader();
+                    app.showToastr(err.error.message, ToastrType.ERROR);
                 },
 
-                complete: () => loader.stopLoader()
+                complete: () => app.stopLoader()
 
             });
 
@@ -110,11 +122,13 @@ export const TaskStore = signalStore(
         const deleteTask = (payload: TaskModel, onSuccess: () => void): void => {
 
             patchState(store, { error: null });
-            loader.startLoader();
+            app.startLoader();
 
             task.deleteTask(payload).pipe(delay(3000)).subscribe({
 
                 next: () => {
+
+                    app.showToastr('Task deleted successfully');
 
                     getTasks();
 
@@ -124,9 +138,11 @@ export const TaskStore = signalStore(
 
                 error: (err: any) => {
                     patchState(store, { error: err.error.message });
+                    app.stopLoader();
+                    app.showToastr(err.error.message, ToastrType.ERROR);
                 },
 
-                complete: () => loader.stopLoader()
+                complete: () => app.stopLoader()
 
             });
 
@@ -140,8 +156,17 @@ export const TaskStore = signalStore(
         };
 
     }),
-    withHooks(() => ({
+    withHooks((store) => ({
         onInit() {
+            const localstorage = inject(LocalStorageService);
+
+            const accessToken = localstorage.getItem("accessToken");
+            const refreshToken = localstorage.getItem("refreshToken");
+            const loggedIn = localstorage.getItem("loggedIn");
+
+            if (accessToken && refreshToken && loggedIn) {
+                store.getTasks();
+            }
             console.log("Task hook is initialized");
         }
     }))

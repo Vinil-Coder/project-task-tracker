@@ -10,8 +10,9 @@
 
   <app-footer id="footer"></app-footer>
 
-  <div *ngIf="loader.isLoading()" class="loading-overlay">
+  <div *ngIf="app.isLoading()" class="loading-overlay">
     <div class="loader"></div>
   </div>
 
+  <app-toastr></app-toastr>
 </div>

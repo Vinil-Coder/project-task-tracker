@@ -3,6 +3,7 @@ export interface TaskModel {
     id?: string,
     title: string,
     description: string;
+    project_id: string;
     priority: string,
     status: string;
     startDate: string;

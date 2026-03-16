@@ -3,12 +3,13 @@ import { AppUiStateService } from '../../core/services/app-ui-state.service';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-dialog-popup',
+  selector: 'app-toastr',
   imports: [CommonModule],
-  templateUrl: './dialog-popup.html',
-  styleUrl: './dialog-popup.css',
+  templateUrl: './toastr.html',
+  styleUrl: './toastr.css',
 })
-export class DialogPopup {
+export class Toastr {
 
   app = inject(AppUiStateService);
+
 }

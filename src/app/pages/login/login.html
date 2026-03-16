@@ -52,12 +52,8 @@
                 </div>
             </div>
 
-            <div *ngIf="store.error()" class="api-error">
-                {{ store.error() }}
-            </div>
-
             <button type="submit">
-                {{ loader.isLoading() ? 'Logging ...' : 'Login' }}
+                {{ app.isLoading() ? 'Logging ...' : 'Login' }}
             </button>
 
             <div class="signup-link">
@@ -65,7 +61,7 @@
                 <a routerLink="/register">Register here</a>
             </div>
 
-            <div *ngIf="loader.isLoading()" class="loading-overlay">
+            <div *ngIf="app.isLoading()" class="loading-overlay">
                 <div class="loader"></div>
             </div>
 

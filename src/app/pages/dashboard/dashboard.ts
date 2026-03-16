@@ -1,6 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { ProjectStore } from '../../store/project.store';
 import { TaskStore } from '../../store/task.store';
+import { AppUiStateService } from '../../core/services/app-ui-state.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -12,10 +13,14 @@ export class Dashboard implements OnInit {
 
   projectStore = inject(ProjectStore);
   taskStore = inject(TaskStore);
+  app = inject(AppUiStateService)
 
   ngOnInit(): void {
-    this.projectStore.getProjects();
-    this.taskStore.getTasks();
-    console.log('tasks', this.taskStore.total())
+    if (!this.projectStore.projects().length) {
+      this.projectStore.getProjects();
+    }
+    if (!this.taskStore.tasks().length) {
+      this.taskStore.getTasks();
+    }
   }
 }

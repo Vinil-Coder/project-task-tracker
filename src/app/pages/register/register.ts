@@ -3,7 +3,7 @@ import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { AuthStore } from '../../store/auth.store';
-import { LoaderService } from '../../core/services/loading.service';
+import { AppUiStateService } from '../../core/services/app-ui-state.service';
 
 @Component({
   selector: 'app-register',
@@ -18,7 +18,7 @@ export class Register {
 
   private fb = inject(FormBuilder);
   store = inject(AuthStore);
-  loader = inject(LoaderService);
+  app = inject(AppUiStateService);
 
   constructor() {
     this.singUpForm = this.fb.group({
@@ -36,6 +36,7 @@ export class Register {
         Validators.pattern("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,12}$")]
       ]
     })
+    this.app.showToastr('Register Page Loaded Successfully')
   }
 
   get f() {

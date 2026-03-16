@@ -2,8 +2,9 @@ import { patchState, signalStore, withComputed, withHooks, withMethods, withStat
 import { ProjectInterface, ProjectState } from "../core/interfaces/project.interface";
 import { inject } from "@angular/core";
 import ProjectService from "../core/services/project.service";
-import { LoaderService } from "../core/services/loading.service";
+import { AppUiStateService, ToastrType } from "../core/services/app-ui-state.service";
 import { delay } from "rxjs";
+import LocalStorageService from "../core/services/localstorage.service";
 
 export const ProjectStore = signalStore(
     { providedIn: 'root' },
@@ -20,7 +21,7 @@ export const ProjectStore = signalStore(
         return {
             total: () => store.projects().length ?? 0,
             initiated: () => store.projects()?.filter((project) => project.status === 'Initiated').length ?? 0,
-            inprogess:() => store.projects()?.filter((project) => project.status === 'In Progress').length ?? 0,
+            inprogess: () => store.projects()?.filter((project) => project.status === 'In Progress').length ?? 0,
             completed: () => store.projects()?.filter((project) => project.status === 'Completed').length ?? 0,
             expired: () => store.projects()?.filter((project) => project.status === 'Expired').length ?? 0,
             lowPriority: () => store.projects()?.filter((project) => project.priority === 'Low').length ?? 0,
@@ -32,14 +33,14 @@ export const ProjectStore = signalStore(
     withMethods((store) => {
 
         const project = inject(ProjectService);
-        const loader = inject(LoaderService);
+        const app = inject(AppUiStateService);
 
         const getProjects = (): void => {
 
             patchState(store, { error: null });
-            loader.startLoader();
+            app.startLoader();
 
-            project.getProjects().subscribe({
+            project.getProjects().pipe(delay(1000)).subscribe({
                 next: (res) => {
                     patchState(store, {
                         projects: res,
@@ -48,11 +49,14 @@ export const ProjectStore = signalStore(
                             cols: store.tableData.cols()
                         }
                     });
+                    app.showToastr('Projects fetched successfully');
                 },
                 error: (err: any) => {
                     patchState(store, { error: err.error.message });
+                    app.stopLoader();
+                    app.showToastr(err.error.message, ToastrType.ERROR);
                 },
-                complete: () => loader.stopLoader()
+                complete: () => app.stopLoader()
             });
 
         };
@@ -60,36 +64,41 @@ export const ProjectStore = signalStore(
         const addProject = (payload: ProjectInterface, onSuccess: () => void): void => {
 
             patchState(store, { error: null });
-            loader.startLoader();
+            app.startLoader();
 
-            project.addProject(payload).pipe(delay(3000)).subscribe({
+            project.addProject(payload).pipe(delay(1000)).subscribe({
 
                 next: () => {
 
+                    app.showToastr('Project added successfully');
+
                     getProjects();
-
+                    
                     onSuccess();
-
                 },
 
                 error: (err: any) => {
                     patchState(store, { error: err.error.message });
+                    app.stopLoader();
+                    app.showToastr(err.error.message, ToastrType.ERROR);
                 },
 
-                complete: () => loader.stopLoader()
+                complete: () => app.stopLoader()
 
             });
 
         };
 
         const updateProject = (payload: ProjectInterface, onSuccess: () => void): void => {
-        
-            patchState(store, { error: null });
-            loader.startLoader();
 
-            project.updateProject(payload).pipe(delay(3000)).subscribe({
+            patchState(store, { error: null });
+            app.startLoader();
+
+            project.updateProject(payload).pipe(delay(1000)).subscribe({
 
                 next: () => {
+
+                    app.showToastr('Project updated successfully');
 
                     getProjects();
 
@@ -99,9 +108,11 @@ export const ProjectStore = signalStore(
 
                 error: (err: any) => {
                     patchState(store, { error: err.error.message });
+                    app.stopLoader();
+                    app.showToastr(err.error.message, ToastrType.ERROR);
                 },
 
-                complete: () => loader.stopLoader()
+                complete: () => app.stopLoader()
 
             });
 
@@ -110,11 +121,13 @@ export const ProjectStore = signalStore(
         const deleteProject = (payload: ProjectInterface, onSuccess: () => void): void => {
 
             patchState(store, { error: null });
-            loader.startLoader();
+            app.startLoader();
 
-            project.deleteProject(payload).pipe(delay(3000)).subscribe({
+            project.deleteProject(payload).pipe(delay(1000)).subscribe({
 
                 next: () => {
+
+                    app.showToastr('Project deleted successfully');
 
                     getProjects();
 
@@ -124,9 +137,11 @@ export const ProjectStore = signalStore(
 
                 error: (err: any) => {
                     patchState(store, { error: err.error.message });
+                    app.stopLoader();
+                    app.showToastr(err.error.message, ToastrType.ERROR);
                 },
 
-                complete: () => loader.stopLoader()
+                complete: () => app.stopLoader()
 
             });
 
@@ -140,8 +155,17 @@ export const ProjectStore = signalStore(
         };
 
     }),
-    withHooks(() => ({
+    withHooks((store) => ({
         onInit() {
+            const localstorage = inject(LocalStorageService);
+
+            const accessToken = localstorage.getItem("accessToken");
+            const refreshToken = localstorage.getItem("refreshToken");
+            const loggedIn = localstorage.getItem("loggedIn");
+
+            if (accessToken && refreshToken && loggedIn) {
+                store.getProjects();
+            }
             console.log("Project hook is initialized");
         }
     }))

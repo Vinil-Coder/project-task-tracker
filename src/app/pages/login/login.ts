@@ -3,7 +3,7 @@ import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthStore } from '../../store/auth.store';
 import { RouterModule } from '@angular/router';
-import { LoaderService } from '../../core/services/loading.service';
+import { AppUiStateService } from '../../core/services/app-ui-state.service';
 
 @Component({
   selector: 'app-login',
@@ -18,7 +18,7 @@ export class Login {
 
   private fb = inject(FormBuilder);
   store = inject(AuthStore);
-  loader = inject(LoaderService);
+  app = inject(AppUiStateService);
 
   constructor() {
     this.loginForm = this.fb.group({
@@ -28,6 +28,7 @@ export class Login {
         Validators.pattern("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,12}$")]
       ]
     })
+    this.app.showToastr('Login page loaded successfully');
   }
 
   get f() {

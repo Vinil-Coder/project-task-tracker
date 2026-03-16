@@ -1,18 +1,22 @@
 import { Routes } from '@angular/router';
 import { AuthGuard } from './core/guards/auth.guard';
+import { UserNotLoggedInGuard } from './core/guards/user-loggedIn.guard';
 
 export const routes: Routes = [
     {
         path: 'login',
-        loadComponent: () => import('./pages/login/login').then(c => c.Login)
+        loadComponent: () => import('./pages/login/login').then(c => c.Login),
+        canActivate: [UserNotLoggedInGuard]
     },
     {
         path: 'register',
-        loadComponent: () => import('./pages/register/register').then(c => c.Register)
+        loadComponent: () => import('./pages/register/register').then(c => c.Register),
+        canActivate: [UserNotLoggedInGuard]
     },
     {
         path: 'landing',
-        loadComponent: () => import('./pages/landing-page/landing-page').then(c => c.LandingPage)
+        loadComponent: () => import('./pages/landing-page/landing-page').then(c => c.LandingPage),
+        canActivate: [UserNotLoggedInGuard]
     },
     {
         path: '',

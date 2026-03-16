@@ -2,7 +2,7 @@
 
     <h2 class="page-title">Task</h2>
 
-    <div *ngIf="!loader.isLoading()">
+    <div *ngIf="!app.isLoading()">
 
         <div class="fields-container">
             <input type="text" placeholder="Search" class="search-input">
@@ -34,8 +34,8 @@
             </div>
             <div class="modal-body">
                 <!-- Form Block -->
-                <form [formGroup]="form" (ngSubmit)="onFormSubmit()"
-                    *ngIf="['edit', 'add'].includes(getActionType())" class="form-block">
+                <form [formGroup]="form" (ngSubmit)="onFormSubmit()" *ngIf="['edit', 'add'].includes(getActionType())"
+                    class="form-block">
 
                     <div class="form-container">
 
@@ -77,35 +77,67 @@
                             </div>
                         </div>
 
+                        <!-- Project -->
+                        <div class="form-field custom-select" (click)="toggleProjectDropdown($event)" #projectDropdown>
+                            <label>Project</label>
+
+                            <div class="select-box">
+                                {{ selectedProject || 'Select Project' }}
+                                <span class="arrow"></span>
+                            </div>
+
+                            <ul class="dropdown" *ngIf="projectDropdownOpen">
+                                <li (click)="selectProject(project, $event)"
+                                    *ngFor="let project of projectStore.projects()">{{ project.title }}</li>
+                            </ul>
+
+                            <div *ngIf="f['project_id'].touched && f['project_id'].errors?.['required']"
+                                class="validation-error">
+                                Project is required
+                            </div>
+                        </div>
+
                         <!-- Priority -->
-                        <div class="form-field">
+                        <div class="form-field custom-select" (click)="togglePriorityDropdown($event)"
+                            #priorityDropdown>
+
                             <label>Priority</label>
 
-                            <select formControlName="priority">
-                                <option value="">Select priority</option>
-                                <option value="Low">Low</option>
-                                <option value="Medium">Medium</option>
-                                <option value="High">High</option>
-                                <option value="Critical">Critical</option>
-                            </select>
+                            <div class="select-box">
+                                {{ selectedPriority || 'Select Priority' }}
+                                <span class="arrow"></span>
+                            </div>
 
                             <div *ngIf="f['priority'].touched && f['priority'].errors?.['required']"
                                 class="validation-error">
                                 Priority is required
                             </div>
+
+                            <ul class="dropdown" *ngIf="priorityDropdownOpen">
+                                <li (click)="selectPriority('Low', $event)">Low</li>
+                                <li (click)="selectPriority('Medium', $event)">Medium</li>
+                                <li (click)="selectPriority('High', $event)">High</li>
+                                <li (click)="selectPriority('Critical', $event)">Critical</li>
+                            </ul>
+
                         </div>
 
                         <!-- Status -->
-                        <div class="form-field">
+                        <div class="form-field custom-select" (click)="toggleStatusDropdown($event)" #statusDropdown>
+
                             <label>Status</label>
 
-                            <select formControlName="status">
-                                <option value="">Select status</option>
-                                <option value="Initiated">Initiated</option>
-                                <option value="In-Progress">In Progress</option>
-                                <option value="Completed">Completed</option>
-                                <option value="Expired">Expired</option>
-                            </select>
+                            <div class="select-box">
+                                {{ selectedStatus || 'Select Status' }}
+                                <span class="arrow"></span>
+                            </div>
+
+                            <ul class="dropdown" *ngIf="statusDropdownOpen">
+                                <li (click)="selectStatus('Initiated', $event)">Initiated</li>
+                                <li (click)="selectStatus('In Progress', $event)">In Progress</li>
+                                <li (click)="selectStatus('Completed', $event)">Completed</li>
+                                <li (click)="selectStatus('Expired', $event)">Expired</li>
+                            </ul>
 
                             <div *ngIf="f['status'].touched && f['status'].errors?.['required']"
                                 class="validation-error">
@@ -114,33 +146,41 @@
                         </div>
 
                         <!-- Start Date -->
-                        <div class="form-field">
+                        <div class="form-field custom-date">
                             <label>Start Date</label>
 
-                            <input type="date" formControlName="startDate">
+                            <div class="date-input-wrapper">
+                                <input type="date" formControlName="startDate" placeholder="dd-mm-yyyy">
+                                <span class="calendar-icon">📅</span>
+                            </div>
 
                             <div *ngIf="f['startDate'].touched && f['startDate'].errors?.['required']"
                                 class="validation-error">
                                 Start Date is required
                             </div>
                         </div>
+
                         <!-- End Date -->
-                        <div class="form-field">
+                        <div class="form-field custom-date">
                             <label>End Date</label>
 
-                            <input type="date" formControlName="endDate">
+                            <div class="date-input-wrapper">
+                                <input type="date" formControlName="endDate">
+                                <span class="calendar-icon">📅</span>
+                            </div>
 
                             <div *ngIf="f['endDate'].touched && f['endDate'].errors?.['required']"
                                 class="validation-error">
                                 End Date is required
                             </div>
                         </div>
+
                     </div>
 
                     <!-- Submit Button -->
                     <div class="btn-container">
                         <button type="submit">
-                            {{ loader.isLoading() ? 'Saving...' : 'Save' }}
+                            {{ app.isLoading() ? 'Saving...' : 'Save' }}
                         </button>
                     </div>
 
@@ -204,7 +244,7 @@
 
                     </div>
 
-                     <div class="btn-container">
+                    <div class="btn-container">
                         <button class="cancel-btn" (click)="toggleDialogForm()">close</button>
                     </div>
 
