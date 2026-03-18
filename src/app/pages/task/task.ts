@@ -44,7 +44,6 @@ export class Task {
       startDate: ['', Validators.required],
       endDate: ['', Validators.required]
     })
-    this.app.showToastr('Tasks fetched successfully');
   }
 
   get f() {

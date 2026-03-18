@@ -42,7 +42,6 @@ export class Project {
       endDate: ['', Validators.required]
     })
     this.store.tableData().rows = this.store.projects()
-    this.app.showToastr('Projects fetched successfully');
   }
 
   get f() {
